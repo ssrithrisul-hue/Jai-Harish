@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Digital Certificate Viewer</title>
+  <meta name="description" content="View the subject, issuer, serial number and validity of a digital certificate - all inside your browser." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>Digital Certificate Viewer</h1>
+    <p class="intro">
+      A digital certificate proves the identity of a website, person or company.
+      Choose a certificate file (<code>.cer</code>, <code>.crt</code> or <code>.pem</code>)
+      and this page will show who it belongs to, who issued it and how long it is valid.
+      The file is read in your browser only &mdash; nothing is uploaded to a server.
+    </p>
+  </header>
+
+  <main>
+    <!-- Step 1: choose a file -->
+    <section class="card" aria-labelledby="choose-heading">
+      <h2 id="choose-heading">1. Choose a certificate file</h2>
+
+      <label class="field-label" for="cert-file">Certificate file</label>
+      <input type="file" id="cert-file" name="cert-file"
+             accept=".cer,.crt,.pem,application/x-x509-ca-cert,application/x-pem-file"
+             aria-describedby="file-hint" />
+      <p class="hint" id="file-hint">Accepted formats: .cer, .crt and .pem (DER or base64/PEM).</p>
+
+      <button type="button" id="view-button" class="button">View Certificate</button>
+    </section>
+
+    <!-- Step 2: results -->
+    <section class="card" aria-labelledby="result-heading">
+      <h2 id="result-heading">2. Certificate details</h2>
+
+      <!-- aria-live makes screen readers announce messages and results -->
+      <p id="message" class="message" role="status" aria-live="polite">
+        No certificate loaded yet.
+      </p>
+
+      <div id="result" class="result" hidden>
+        <p class="status-line">
+          Status:
+          <span id="status-badge" class="badge"></span>
+        </p>
+        <p id="expiry-warning" class="warning" hidden></p>
+
+        <dl class="details">
+          <div class="detail">
+            <dt>Subject (owner)</dt>
+            <dd id="d-subject">&mdash;</dd>
+          </div>
+          <div class="detail">
+            <dt>Issuer</dt>
+            <dd id="d-issuer">&mdash;</dd>
+          </div>
+          <div class="detail">
+            <dt>Serial number</dt>
+            <dd id="d-serial" class="mono">&mdash;</dd>
+          </div>
+          <div class="detail">
+            <dt>Valid from</dt>
+            <dd id="d-notbefore">&mdash;</dd>
+          </div>
+          <div class="detail">
+            <dt>Valid until</dt>
+            <dd id="d-notafter">&mdash;</dd>
+          </div>
+          <div class="detail">
+            <dt>Certificate version</dt>
+            <dd id="d-version">&mdash;</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>College mini-project &middot; Runs fully client-side &middot; No libraries required.</p>
+  </footer>
+
+  <!-- Parsing logic, then the page logic -->
+  <script src="certificate-parser.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
